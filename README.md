@@ -6,7 +6,7 @@ O [**Kind**](https://kind.sigs.k8s.io/) (Kubernetes in Docker) é uma forma fác
 
 Na página do [**Github**](https://github.com/kubernetes-sigs/kind/releases) do projeto você encontra os arquivos compilados para diversas distribuições.
 
-Exemplo de instalação em um GNU/Linux x64.
+Exemplo de instalação em um GNU/Linux x86_64.
 
 ```bash
 wget https://github.com/kubernetes-sigs/kind/releases/download/v0.8.1/kind-linux-amd64
