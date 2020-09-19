@@ -1,6 +1,6 @@
 ## Instalação e configuração do Nginx Ingress Controller
 
-Aqui faremos a implantação do famigerado [**Ingress Controller**](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) chamado [**Nginx Ingress Controllert**](https://kubernetes.github.io/ingress-nginx/).
+Aqui faremos a implantação do famigerado [**Ingress Controller**](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) chamado [**Nginx Ingress Controller**](https://kubernetes.github.io/ingress-nginx/).
 
 Dessa forma podemos trabalhar com recursos do tipo [**Ingress**](https://kubernetes.io/docs/concepts/services-networking/ingress/).
 
