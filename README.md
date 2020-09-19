@@ -7,4 +7,5 @@ O [**Kind**](https://kind.sigs.k8s.io/) (Kubernetes in Docker) é uma forma fác
 01. [**Instalação e configuração do Kind**](content/kind/README.md)
 02. [**LoadBalancer com MetalLB**](content/metallb/README.md)
 03. [**Metrics Server**](content/metrics-server/README.md)
-04. [**Kubernetes Dashboard**](content/dashboard/README.md) 
+04. [**Kubernetes Dashboard**](content/dashboard/README.md)
+05. [**Nginx Ingress Controller**](content/nginx-ingress-controller/README.md) 
