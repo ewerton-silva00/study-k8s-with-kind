@@ -4,12 +4,12 @@ Com o [**MetalLB**](https://metallb.universe.tf/) consigo utilizar o recurso de 
 
 Criação do namespace chamado ```metallb-system```.
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.4/manifests/namespace.yaml
 ```
 
 Implantação do deployment contendo o ```controller``` e o daemonset contendo os ```speakers```.
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.4/manifests/metallb.yaml
 ```
 
 Agora, a criação de uma ```secret``` contendo a ```secretKey``` que irá criptografar a comunicação entre os speakers.

@@ -11,6 +11,7 @@ rules:
 - apiGroups: ["metrics.k8s.io"]
   resources: ["pods", "nodes"]
   verbs: ["get", "list", "watch"]
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -24,6 +25,7 @@ subjects:
 - kind: ServiceAccount
   name: metrics-server
   namespace: kube-system
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -38,6 +40,7 @@ subjects:
 - kind: ServiceAccount
   name: metrics-server
   namespace: kube-system
+
 ---
 apiVersion: apiregistration.k8s.io/v1beta1
 kind: APIService
@@ -52,12 +55,14 @@ spec:
   insecureSkipTLSVerify: true
   groupPriorityMinimum: 100
   versionPriority: 100
+
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: metrics-server
   namespace: kube-system
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -102,6 +107,7 @@ spec:
           mountPath: /tmp
       nodeSelector:
         kubernetes.io/os: linux
+
 ---
 apiVersion: v1
 kind: Service
@@ -118,6 +124,7 @@ spec:
   - port: 443
     protocol: TCP
     targetPort: main-port
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -136,6 +143,7 @@ rules:
   - get
   - list
   - watch
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding

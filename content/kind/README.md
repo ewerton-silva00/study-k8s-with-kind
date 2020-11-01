@@ -34,7 +34,7 @@ kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
   - role: control-plane
-    image: docker.io/kindest/node:v1.18.8
+    image: docker.io/kindest/node:v1.19.1
     kubeadmConfigPatches:
     - |
       kind: InitConfiguration
@@ -50,7 +50,7 @@ nodes:
         protocol: TCP
 
   - role: worker
-    image: docker.io/kindest/node:v1.18.8
+    image: docker.io/kindest/node:v1.19.1
     kubeadmConfigPatches:
     - |
       kind: JoinConfiguration
@@ -59,7 +59,7 @@ nodes:
           node-labels: "workloads=true"
 
   - role: worker
-    image: docker.io/kindest/node:v1.18.8
+    image: docker.io/kindest/node:v1.19.1
     kubeadmConfigPatches:
     - |
       kind: JoinConfiguration
@@ -74,7 +74,7 @@ networking:
 Agora utilizo o comando abaixo para inicializar o cluster.
 
 ```bash
-kind create cluster --name estudo --config kind.yaml
+kind create cluster --name kindcluster --config kind.yaml
 ```
 
 Com o cluster inicializado, executando o comando ```kubectl get nodes``` percebe-se que o status dos nodes será **NotReady**, pois desabilitei o CNI padrão, o **kindnet**. Dessa forma os pods não podem se comunicar.

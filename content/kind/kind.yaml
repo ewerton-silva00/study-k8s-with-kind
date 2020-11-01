@@ -2,7 +2,7 @@ kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
   - role: control-plane
-    image: docker.io/kindest/node:v1.18.6
+    image: docker.io/kindest/node:v1.19.1
     kubeadmConfigPatches:
     - |
       kind: InitConfiguration
@@ -18,7 +18,7 @@ nodes:
         protocol: TCP
 
   - role: worker
-    image: docker.io/kindest/node:v1.18.6
+    image: docker.io/kindest/node:v1.19.1
     kubeadmConfigPatches:
     - |
       kind: JoinConfiguration
@@ -27,7 +27,7 @@ nodes:
           node-labels: "workloads=true"
 
   - role: worker
-    image: docker.io/kindest/node:v1.18.6
+    image: docker.io/kindest/node:v1.19.1
     kubeadmConfigPatches:
     - |
       kind: JoinConfiguration
