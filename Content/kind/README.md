@@ -1,6 +1,8 @@
 ## Instalação e Configuração do Kind.
 
-<p align="center"><img alt="kind" src="[https://raw.githubusercontent.com/kubernetes-sigs/kind/master/logo/logo.png)" width="300px" /></p>
+<p align="center">
+  <img width="500" height="350" src="https://d33wubrfki0l68.cloudfront.net/d0c94836ab5b896f29728f3c4798054539303799/9f948/logo/logo.png">
+</p>
 
 O [**Kind**](https://kind.sigs.k8s.io/) (Kubernetes in Docker) é uma ferramenta para executar o Kubernetes local em containers [**Docker**](https://docs.docker.com/). O Kind foi inclusive projetado para testar o próprio Kubernetes.
 

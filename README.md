@@ -1,7 +1,7 @@
 ## Estudo de Kubernetes com Kind
 
 
-![](https://www.clipartmax.com/png/middle/146-1469937_background-kubernetes-logo.png)
+![](https://i.octopus.com/blog/2020-01/kubernetes-with-kind/kubernetes-in-docker.png)
 
 Neste repositório descrevo passo à passo como executar um cluster Kubernetes localmente para fins de estudo. Seguindo os tópicos abaixo na sequência correta você terá um cluster pronto com `Alta Disponibilidade`, `Load Balancer`, `Observabilidade` e afins.
 
