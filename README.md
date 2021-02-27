@@ -1,11 +1,14 @@
 ## Estudo de Kubernetes com Kind
 
-O [**Kind**](https://kind.sigs.k8s.io/) (Kubernetes in Docker) é uma forma fácil e leve de executar o Kubernetes num ambiente local para testes e aprendizado, mas não é recomendado para uso em produção. O Kind foi inclusive desenvolvido para testar o próprio Kubernetes.
+
+![](https://www.clipartmax.com/png/middle/146-1469937_background-kubernetes-logo.png)
+
+Neste repositório descrevo passo à passo como executar um cluster Kubernetes localmente para fins de estudo. Seguindo os tópicos abaixo na sequência correta você terá um cluster pronto com `Alta Disponibilidade`, `Load Balancer`, `Observabilidade` e afins.
 
 **Conteúdo:**
 
-01. [**Instalação e configuração do Kind**](content/kind/README.md)
-02. [**LoadBalancer com MetalLB**](content/metallb/README.md)
-03. [**Metrics Server**](content/metrics-server/README.md)
-04. [**Kubernetes Dashboard**](content/dashboard/README.md)
-05. [**Nginx Ingress Controller**](content/nginx-ingress-controller/README.md) 
+01. [**Instalação e configuração do Kind**](Content/kind/README.md)
+02. [**LoadBalancer com MetalLB**](Content/metallb/README.md)
+03. [**Metrics Server**](Content/metrics-server/README.md)
+04. [**Kubernetes Dashboard**](Content/dashboard/README.md)
+05. [**Nginx Ingress Controller**](Content/nginx-ingress-controller/README.md)
