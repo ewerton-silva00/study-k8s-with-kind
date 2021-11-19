@@ -8,7 +8,7 @@ nodes:
       kind: InitConfiguration
       nodeRegistration:
         kubeletExtraArgs:
-          node-labels: "loadbalancer=true"
+          node-labels: "loadbalancer=enabled"
     extraPortMappings:
       - containerPort: 80
         hostPort: 80
@@ -24,7 +24,7 @@ nodes:
       kind: JoinConfiguration
       nodeRegistration:
         kubeletExtraArgs:
-          node-labels: "workloads=true"
+          node-labels: "workloads=enabled"
 
   - role: worker
     image: docker.io/kindest/node:v1.20.7@sha256:cbeaf907fc78ac97ce7b625e4bf0de16e3ea725daf6b04f930bd14c67c671ff9
@@ -33,7 +33,8 @@ nodes:
       kind: JoinConfiguration
       nodeRegistration:
         kubeletExtraArgs:
-          node-labels: "workloads=true"
+          node-labels: "workloads=enabled"
 
 networking:
+  apiServerPort: 6443
   disableDefaultCNI: true

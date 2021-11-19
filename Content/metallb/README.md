@@ -27,7 +27,12 @@ helm upgrade --install metallb metallb/metallb \
   --namespace metallb-system \
   --set "configInline.address-pools[0].addresses[0]="172.18.0.10-172.18.0.20"" \
   --set "configInline.address-pools[0].name=default" \
-  --set "configInline.address-pools[0].protocol=layer2"
-kubectl wait --for condition=Available=True deploy/metallb-controller -n metallb-system --timeout -1s
-kubectl wait --for condition=ready pod -l app.kubernetes.io/component=controller -n metallb-system --timeout -1s
+  --set "configInline.address-pools[0].protocol=layer2" \
+  --set controller.nodeSelector.loadbalancer=enabled \
+  --set "controller.tolerations[0].key=node-role.kubernetes.io/master" \
+  --set "controller.tolerations[0].effect=NoSchedule" \
+  --set speaker.tolerateMaster=true \
+  --set speaker.nodeSelector.loadbalancer=enabled
+kubectl wait --for condition=Available=True deploy/metallb-controller --namespace metallb-system --timeout -1s
+kubectl wait --for condition=ready pod --selector app.kubernetes.io/component=controller --namespace metallb-system --timeout -1s
 ```
