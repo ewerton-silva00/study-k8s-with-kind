@@ -45,7 +45,10 @@ nodes:
       kind: InitConfiguration
       nodeRegistration:
         kubeletExtraArgs:
-          node-labels: "loadbalancer=true"
+          node-labels: "loadbalancer=enabled"
+    extraMounts:
+      - hostPath: /tmp/local-path-provisioner
+        containerPath: /var/local-path-provisioner
     extraPortMappings:
       - containerPort: 80
         hostPort: 80
@@ -61,7 +64,10 @@ nodes:
       kind: JoinConfiguration
       nodeRegistration:
         kubeletExtraArgs:
-          node-labels: "workloads=true"
+          node-labels: "workloads=enabled"
+    extraMounts:
+      - hostPath: /tmp/local-path-provisioner
+        containerPath: /var/local-path-provisioner
 
   - role: worker
     image: docker.io/kindest/node:v1.20.7@sha256:cbeaf907fc78ac97ce7b625e4bf0de16e3ea725daf6b04f930bd14c67c671ff9
@@ -70,9 +76,13 @@ nodes:
       kind: JoinConfiguration
       nodeRegistration:
         kubeletExtraArgs:
-          node-labels: "workloads=true"
+          node-labels: "workloads=enabled"
+    extraMounts:
+      - hostPath: /tmp/local-path-provisioner
+        containerPath: /var/local-path-provisioner
 
 networking:
+  apiServerPort: 6443
   disableDefaultCNI: true
 ```
 
@@ -99,6 +109,8 @@ Com o cluster inicializado, exporte a variável `KUBECONFIG`, pois no comando ac
 export KUBECONFIG="~/.kube/kind.yaml"
 ```
 
+**03. Instalação do CNI Weave Net.**
+
 Executando o comando ```kubectl get nodes``` percebe-se que o status dos nodes será **NotReady**, pois o CNI padrão, o **kindnet**, está desabilitado. Dessa forma os pods não podem se comunicar.
 
 Faço isso, porque prefiro estudar/trabalhar com o CNI [**Weave-net**](https://www.weave.works/docs/net/latest/kubernetes/kube-addon/), que para instalar basta executar o comando abaixo.
@@ -107,3 +119,37 @@ Faço isso, porque prefiro estudar/trabalhar com o CNI [**Weave-net**](https://w
 kubectl apply --filename "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
 ```
 Finalizado o deployment do `weave-net` você terá um cluster pronto para estudo.
+
+**04. StorageClass padrão.**
+
+Por padrão o `Kind` instala o [`local-path-provisioner`](https://github.com/rancher/local-path-provisioner) que nos permite trabalhar com persistência de dados.
+
+Perceba que no arquivo `kind.yaml` utilizado para inicializar o cluster temos um mapeamento de diretório.
+
+```
+extraMounts:
+  - hostPath: /tmp/local-path-provisioner
+    containerPath: /var/local-path-provisioner
+```
+
+Ou seja, mapeamos o diretório `/tmp/local-path-provisioner` para o `/var/local-path-provisioner` dos containers do `kind`. Dessa forma temos um provisionamento dinâmico dos volumes persistentes.
+
+Abaixo um exemplo de como ficam organizados os `PersistentVolumeClaim`.
+```
+/tmp/local-path-provisioner
+├── pvc-499ceec2-1289-48c2-9f1f-b2224f1aba24_rocketchat_rocketchat-rocketchat
+└── pvc-95410c9c-4391-4101-98df-e61709b70cb3_rocketchat_datadir-rocketchat-mongodb-0
+    └── data
+        └── db
+            ├── diagnostic.data
+            └── journal
+
+6 directories
+```
+
+O `StorageClass` criado se chama `standard`, ou seja, no `storageClassName` é preciso passar o valor `standard`.
+
+```
+NAME                 PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+standard (default)   rancher.io/local-path   Delete          WaitForFirstConsumer   false                  149m
+```
