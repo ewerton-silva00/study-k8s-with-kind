@@ -12,3 +12,4 @@ Neste repositório descrevo passo à passo como executar um cluster Kubernetes l
 03. [**Metrics Server**](Content/metrics-server/README.md)
 04. [**Kubernetes Dashboard**](Content/dashboard/README.md)
 05. [**Nginx Ingress Controller**](Content/nginx-ingress-controller/README.md)
+06. [**Example Apps**](Content/example-apps/README.md)
