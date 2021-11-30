@@ -22,3 +22,4 @@ Neste repositório descrevo passo à passo como executar um cluster Kubernetes l
 04. [**Tracing**](https://grafana.com/oss/tempo/)
 05. [**GitOps**]()
 06. [**Chaos Engineering**](https://chaos-mesh.org/)
+07. [**Disaster Recovery**](https://velero.io/)
