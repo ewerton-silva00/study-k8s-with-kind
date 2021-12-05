@@ -6,7 +6,17 @@
 
 O [**KinD**](https://kind.sigs.k8s.io/) (Kubernetes in Docker) é uma ferramenta para executar o Kubernetes em containers [**Docker**](https://docs.docker.com/). O Kind foi inclusive projetado para testar o próprio Kubernetes.
 
-Como pré-requisito, você precisa ter o Docker devidamente instalado e funcional. [Clicando aqui](https://docs.docker.com/get-docker/) você será direcionado para a documentação de instalação do Docker.
+Como pré-requisitos, você precisa ter o Docker e o kubectl devidamente instalados e funcionais. [Clicando aqui](https://docs.docker.com/get-docker/) você será direcionado para a documentação de instalação do Docker.
+
+**00. Download e instalação do kubectl.**
+
+O [**kubectl**](https://kubernetes.io/docs/reference/kubectl/kubectl/) é a ferramenta de linha de comando que você irá usar para administrar seus clusters Kubernetes. As [instruções de instalação no Linux](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/) são, basicamente, as seguintes:
+
+```bash
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+kubectl version
+```
 
 **01. Download e instalação do kind.**
 
@@ -16,8 +26,7 @@ Exemplo de instalação em um GNU/Linux x86_64.
 
 ```bash
 wget https://github.com/kubernetes-sigs/kind/releases/download/v0.11.1/kind-linux-amd64
-chmod +x kind-linux-amd64
-mv kind-linux-amd64 /usr/local/bin/kind
+sudo install -o root -g root -m 0755 kind-linux-amd64 /usr/local/bin/kind
 kind version
 ```
 
@@ -25,14 +34,32 @@ kind version
 
 É possível inicializar o kind com apenas um nó contendo todas as funções necessárias do Kubernetes.
 
-Um exemplo prático disso é executando o comando abaixo que irá subir um único node.
+Um exemplo prático disso é executando o comando abaixo que irá criar um cluster com um único node.
 
 ```bash
 kind create cluster
 ```
-> Utilize o **help** do kind para entender todas as possibilidades de uso.
 
-No exemplo abaixo, temos um cluster com 3 nodes, 1 **control-plane** e 2 **workers**, a partir de um arquivo de configuração YAML (YAML Engineer ❤️).
+Isso irá criar um cluster chamado **kind** com apenas um nó.
+
+> Execute ```kind create cluster --help``` para entender todas as possibilidades de uso.
+
+Para listar os clusters e nós existentes, execute:
+
+```bash
+kind get clusters
+kind get nodes
+```
+
+Para destruir o cluster e seus nós, execute:
+
+```bash
+kind delete cluster kind
+```
+
+Para um exemplo mais realista, vamos criar um cluster com 3 nodes, 1 **control-plane** e 2 **workers**, a partir de um arquivo de configuração YAML (YAML Engineer ❤️).
+
+Crie um arquivo chamado ```kind.yaml``` no diretório corrente com o seguinte conteúdo:
 
 ```yaml
 kind: Cluster
@@ -98,15 +125,16 @@ Observe que no YAML informei a versão `1.20.7` do Kubernetes. O kind na versão
 1.14: kindest/node:v1.14.10@sha256:f8a66ef82822ab4f7569e91a5bccaf27bceee135c1457c512e54de8c6f7219f8
 ```
 
-Agora utililize o comando abaixo para inicializar o cluster.
+Agora utililize o comando abaixo para criar o cluster.
 
 ```bash
 kind create cluster --name kindcluster --config kind.yaml --kubeconfig ~/.kube/kind.yaml
 ```
 
 Com o cluster inicializado, exporte a variável `KUBECONFIG`, pois no comando acima foi informado onde seria escrito o arquivo `kubeconfig file`.
+
 ```bash
-export KUBECONFIG="~/.kube/kind.yaml"
+export KUBECONFIG=~/.kube/kind.yaml
 ```
 
 **03. Instalação do CNI Weave Net.**
@@ -116,7 +144,7 @@ Executando o comando ```kubectl get nodes``` percebe-se que o status dos nodes s
 Faço isso, porque prefiro estudar/trabalhar com o CNI [**Weave-net**](https://www.weave.works/docs/net/latest/kubernetes/kube-addon/), que para instalar basta executar o comando abaixo.
 
 ```bash
-kubectl apply --filename "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+kubectl apply --filename "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 -w0)"
 ```
 Finalizado o deployment do `weave-net` você terá um cluster pronto para estudo.
 
