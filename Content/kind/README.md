@@ -10,11 +10,14 @@ Como pré-requisitos, você precisa ter o Docker e o kubectl devidamente instala
 
 **00. Download e instalação do kubectl.**
 
-O [**kubectl**](https://kubernetes.io/docs/reference/kubectl/kubectl/) é a ferramenta de linha de comando que você irá usar para administrar seus clusters Kubernetes. As [instruções de instalação no Linux](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/) são, basicamente, as seguintes:
+O [**kubectl**](https://kubernetes.io/docs/reference/kubectl/kubectl/) é a ferramenta de linha de comando que você irá usar para administrar seus clusters Kubernetes. A [documentação oficial](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/) sugere várias maneiras de instalá-lo. Se você estiver usando Ubuntu Linux, use o repositório de pacotes binários seguindo os passos a seguir, porque será mais fácil mantê-lo autalizado no sistema:
 
 ```bash
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+sudo apt-get install -y apt-transport-https ca-certificates curl
+sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y kubectl
 kubectl version
 ```
 
