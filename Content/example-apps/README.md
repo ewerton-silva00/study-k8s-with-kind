@@ -17,13 +17,13 @@ helm upgrade --install rocketchat rocketchat/rocketchat \
     --version 3.1.0 \
     --create-namespace \
     --namespace rocketchat \
-    --values Content/example-apps/rocketchat/rocketchat.yaml
+    --values rocketchat/rocketchat.yaml
 kubectl wait --for condition=Available=True deploy/rocketchat-rocketchat --namespace rocketchat --timeout -1s
 kubectl wait --for condition=ready pod/rocketchat-mongodb-0 --namespace rocketchat --timeout -1s
 ```
-> Confira o arquivo `rocketchat.yaml` para entender ou modificar as configurações.
+> Confira o arquivo `rocketchat/rocketchat.yaml` para entender ou modificar as configurações.
 
-No arquivo `rocketchat.yaml` o parâmetro `host` recebe o valor `chat.meudominio.local`. Sendo assim, você precisa adicionar no `/etc/host` do seu computador a entrada abaixo:
+No arquivo `rocketchat/rocketchat.yaml` o parâmetro `host` recebe o valor `chat.meudominio.local`. Sendo assim, você precisa adicionar no `/etc/host` do seu computador a entrada abaixo:
 
 ```
 172.18.0.10 chat.meudominio.local
