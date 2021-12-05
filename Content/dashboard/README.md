@@ -36,19 +36,19 @@ subjects:
 Aplique o arquivo.
 
 ```bash
-kubectl create kubernetes-dashboard-adminuser.yml
+kubectl create -f kubernetes-dashboard-adminuser.yaml
 ```
 
 Para acesso ao Dashboard, é preciso recuperar o token do usuário ```admin-user```. Execute o comando abaixo e copie o token.
 
 ```bash
-kubectl --namespace kubernetes-dashboard describe secret $(kubectl --namespace kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')
+kubectl --namespace kubernetes-dashboard describe secret $(kubectl --namespace kubernetes-dashboard get secret | awk '/admin-user/ {print $1}')
 ```
 
 Inicialize o proxy para acesso ao Dashboard com o comando ```kubectl proxy```.
 
 ```
-➜ kubectl proxy                                                                                                                     
+➜ kubectl proxy
 Starting to serve on 127.0.0.1:8001
 ```
 
