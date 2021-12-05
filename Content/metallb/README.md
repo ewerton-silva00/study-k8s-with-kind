@@ -2,11 +2,21 @@
 
 Com o [**MetalLB**](https://metallb.universe.tf/) podemos utilizar o recurso de LoadBalancer mesmo estando executando um cluster local.
 
+Para instalar o MetalLB precisaremos do [**Helm**](https://helm.sh/), o gerenciador de pacotes do Kuberntes. Há [várias formas de instalá-lo](https://helm.sh/docs/intro/install/). Para sistemas baseados no Apt (como o Debian e o Ubuntu), é conveniente usar o repositório Apt mantido pelo projeto, pois assim será mais fácil mantê-lo atualizado:
+
+```bash
+curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
+sudo apt-get install apt-transport-https --yes
+echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+sudo apt-get update
+sudo apt-get install helm
+```
+
 Antes de instalar o MetalLB, precisamos definir um pool de IPs para alocação e uso do serviços do tipo `LoadBalancer`.
 
 Verifique qual a rede que o `kind` está utilizando.
 ```bash
-docker network inspect kind | jq '.[].IPAM | .Config | .[0].Subnet' | cut -d \" -f 2
+docker network inspect kind | jq -r '.[].IPAM.Config[0].Subnet'
 ```
 
 No meu caso, o resultado foi `172.18.0.0/16`. Sabendo disso, irei alocar `10` IPs dessa faixa de rede, que serão:
