@@ -15,7 +15,7 @@ Na página do [**Github**](https://github.com/kubernetes-sigs/kind/releases) do 
 Exemplo de instalação em um GNU/Linux x86_64.
 
 ```bash
-wget https://github.com/kubernetes-sigs/kind/releases/download/v0.11.1/kind-linux-amd64
+wget https://github.com/kubernetes-sigs/kind/releases/download/v0.13.0/kind-linux-amd64
 chmod +x kind-linux-amd64
 mv kind-linux-amd64 /usr/local/bin/kind
 kind version
@@ -39,13 +39,13 @@ kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
   - role: control-plane
-    image: docker.io/kindest/node:v1.20.7@sha256:cbeaf907fc78ac97ce7b625e4bf0de16e3ea725daf6b04f930bd14c67c671ff9
+    image: docker.io/kindest/node:v1.24.0@sha256:406fd86d48eaf4c04c7280cd1d2ca1d61e7d0d61ddef0125cb097bc7b82ed6a1
     kubeadmConfigPatches:
     - |
       kind: InitConfiguration
       nodeRegistration:
         kubeletExtraArgs:
-          node-labels: "loadbalancer=enabled"
+          node-labels: "node.kubernetes.io/loadbalancer=enabled"
     extraMounts:
       - hostPath: /tmp/local-path-provisioner
         containerPath: /var/local-path-provisioner
@@ -58,44 +58,44 @@ nodes:
         protocol: TCP
 
   - role: worker
-    image: docker.io/kindest/node:v1.20.7@sha256:cbeaf907fc78ac97ce7b625e4bf0de16e3ea725daf6b04f930bd14c67c671ff9
+    image: docker.io/kindest/node:v1.24.0@sha256:406fd86d48eaf4c04c7280cd1d2ca1d61e7d0d61ddef0125cb097bc7b82ed6a1
     kubeadmConfigPatches:
     - |
       kind: JoinConfiguration
       nodeRegistration:
         kubeletExtraArgs:
-          node-labels: "workloads=enabled"
+          node-labels: "node.kubernetes.io/workloads=enabled"
     extraMounts:
       - hostPath: /tmp/local-path-provisioner
         containerPath: /var/local-path-provisioner
 
   - role: worker
-    image: docker.io/kindest/node:v1.20.7@sha256:cbeaf907fc78ac97ce7b625e4bf0de16e3ea725daf6b04f930bd14c67c671ff9
+    image: docker.io/kindest/node:v1.24.0@sha256:406fd86d48eaf4c04c7280cd1d2ca1d61e7d0d61ddef0125cb097bc7b82ed6a1
     kubeadmConfigPatches:
     - |
       kind: JoinConfiguration
       nodeRegistration:
         kubeletExtraArgs:
-          node-labels: "workloads=enabled"
+          node-labels: "node.kubernetes.io/workloads=enabled"
     extraMounts:
       - hostPath: /tmp/local-path-provisioner
         containerPath: /var/local-path-provisioner
 
 networking:
+  apiServerAddress: "127.0.0.1"
   apiServerPort: 6443
   disableDefaultCNI: true
 ```
 
-Observe que no YAML informei a versão `1.20.7` do Kubernetes. O kind na versão que estou utilizando, `v0.11.1`, suporta as versões abaixo do Kubernetes:
+Observe que no YAML informei a versão `1.24.0` do Kubernetes. O kind na versão que estou utilizando, `v0.13.0`, suporta as versões abaixo do Kubernetes:
 ```
-1.21: kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6
-1.20: kindest/node:v1.20.7@sha256:cbeaf907fc78ac97ce7b625e4bf0de16e3ea725daf6b04f930bd14c67c671ff9
-1.19: kindest/node:v1.19.11@sha256:07db187ae84b4b7de440a73886f008cf903fcf5764ba8106a9fd5243d6f32729
-1.18: kindest/node:v1.18.19@sha256:7af1492e19b3192a79f606e43c35fb741e520d195f96399284515f077b3b622c
-1.17: kindest/node:v1.17.17@sha256:66f1d0d91a88b8a001811e2f1054af60eef3b669a9a74f9b6db871f2f1eeed00
-1.16: kindest/node:v1.16.15@sha256:83067ed51bf2a3395b24687094e283a7c7c865ccc12a8b1d7aa673ba0c5e8861
-1.15: kindest/node:v1.15.12@sha256:b920920e1eda689d9936dfcf7332701e80be12566999152626b2c9d730397a95
-1.14: kindest/node:v1.14.10@sha256:f8a66ef82822ab4f7569e91a5bccaf27bceee135c1457c512e54de8c6f7219f8
+1.24: kindest/node:v1.24.0@sha256:406fd86d48eaf4c04c7280cd1d2ca1d61e7d0d61ddef0125cb097bc7b82ed6a1
+1.23: kindest/node:v1.23.6@sha256:1af0f1bee4c3c0fe9b07de5e5d3fafeb2eec7b4e1b268ae89fcab96ec67e8355
+1.22: kindest/node:v1.22.9@sha256:6e57a6b0c493c7d7183a1151acff0bfa44bf37eb668826bf00da5637c55b6d5e
+1.21: kindest/node:v1.21.12@sha256:ae05d44cc636ee961068399ea5123ae421790f472c309900c151a44ee35c3e3e
+1.20: kindest/node:v1.20.15@sha256:a6ce604504db064c5e25921c6c0fffea64507109a1f2a512b1b562ac37d652f3
+1.19: kindest/node:v1.19.16@sha256:dec41184d10deca01a08ea548197b77dc99eeacb56ff3e371af3193c86ca99f4
+1.18: kindest/node:v1.18.20@sha256:38a8726ece5d7867fb0ede63d718d27ce2d41af519ce68be5ae7fcca563537ed
 ```
 
 Agora utililize o comando abaixo para inicializar o cluster.
