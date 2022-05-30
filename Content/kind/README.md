@@ -15,7 +15,7 @@ Na página do [**Github**](https://github.com/kubernetes-sigs/kind/releases) do 
 Exemplo de instalação em um GNU/Linux x86_64.
 
 ```bash
-wget https://github.com/kubernetes-sigs/kind/releases/download/v0.13.0/kind-linux-amd64
+wget https://github.com/kubernetes-sigs/kind/releases/download/v0.14.0/kind-linux-amd64
 chmod +x kind-linux-amd64
 mv kind-linux-amd64 /usr/local/bin/kind
 kind version
@@ -25,7 +25,7 @@ kind version
 
 É possível inicializar o kind com apenas um nó contendo todas as funções necessárias do Kubernetes.
 
-Um exemplo prático disso é executando o comando abaixo que irá subir um único node.
+Um exemplo prático disso é executar o comando abaixo que irá subir um único node.
 
 ```bash
 kind create cluster
@@ -52,11 +52,11 @@ nodes:
     extraPortMappings:
       - containerPort: 80
         hostPort: 80
-        listenAddress: "127.0.0.1"
+        listenAddress: 0.0.0.0
         protocol: TCP
       - containerPort: 443
         hostPort: 443
-        listenAddress: "127.0.0.1"
+        listenAddress: 0.0.0.0
         protocol: TCP
 
   - role: worker
@@ -84,12 +84,11 @@ nodes:
         containerPath: /var/local-path-provisioner
 
 networking:
-  apiServerAddress: "127.0.0.1"
+  apiServerAddress: 127.0.0.1
   apiServerPort: 6443
-  disableDefaultCNI: true
 ```
 
-Observe que no YAML informei a versão `1.24.0` do Kubernetes. O kind na versão que estou utilizando, `v0.13.0`, suporta as versões abaixo do Kubernetes:
+Observe que no YAML informei a versão `1.24.0` do Kubernetes. O kind na versão que estou utilizando, `v0.14.0`, suporta as versões abaixo do Kubernetes:
 ```
 1.24: kindest/node:v1.24.0@sha256:406fd86d48eaf4c04c7280cd1d2ca1d61e7d0d61ddef0125cb097bc7b82ed6a1
 1.23: kindest/node:v1.23.6@sha256:1af0f1bee4c3c0fe9b07de5e5d3fafeb2eec7b4e1b268ae89fcab96ec67e8355
@@ -110,17 +109,6 @@ Com o cluster inicializado, exporte a variável `KUBECONFIG`, pois no comando ac
 ```bash
 export KUBECONFIG="~/.kube/kind.yaml"
 ```
-
-**03. Instalação do CNI Weave Net.**
-
-Executando o comando ```kubectl get nodes``` percebe-se que o status dos nodes será **NotReady**, pois o CNI padrão, o **kindnet**, está desabilitado. Dessa forma os pods não podem se comunicar.
-
-Faço isso, porque prefiro estudar/trabalhar com o CNI [**Weave-net**](https://www.weave.works/docs/net/latest/kubernetes/kube-addon/), que para instalar basta executar o comando abaixo.
-
-```bash
-kubectl apply --filename "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
-```
-Finalizado o deployment do `weave-net` você terá um cluster pronto para estudo.
 
 **04. StorageClass padrão.**
 
