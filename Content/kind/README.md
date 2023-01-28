@@ -15,7 +15,7 @@ Na página do [**Github**](https://github.com/kubernetes-sigs/kind/releases) do 
 Exemplo de instalação em um GNU/Linux x86_64.
 
 ```bash
-wget https://github.com/kubernetes-sigs/kind/releases/download/v0.14.0/kind-linux-amd64
+wget https://github.com/kubernetes-sigs/kind/releases/download/v0.17.0/kind-linux-amd64
 chmod +x kind-linux-amd64
 mv kind-linux-amd64 /usr/local/bin/kind
 kind version
@@ -39,7 +39,7 @@ kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
   - role: control-plane
-    image: docker.io/kindest/node:v1.24.0@sha256:406fd86d48eaf4c04c7280cd1d2ca1d61e7d0d61ddef0125cb097bc7b82ed6a1
+    image: docker.io/kindest/node:v1.25.3@sha256:f52781bc0d7a19fb6c405c2af83abfeb311f130707a0e219175677e366cc45d1
     kubeadmConfigPatches:
     - |
       kind: InitConfiguration
@@ -60,7 +60,7 @@ nodes:
         protocol: TCP
 
   - role: worker
-    image: docker.io/kindest/node:v1.24.0@sha256:406fd86d48eaf4c04c7280cd1d2ca1d61e7d0d61ddef0125cb097bc7b82ed6a1
+    image: docker.io/kindest/node:v1.25.3@sha256:f52781bc0d7a19fb6c405c2af83abfeb311f130707a0e219175677e366cc45d1
     kubeadmConfigPatches:
     - |
       kind: JoinConfiguration
@@ -72,7 +72,7 @@ nodes:
         containerPath: /var/local-path-provisioner
 
   - role: worker
-    image: docker.io/kindest/node:v1.24.0@sha256:406fd86d48eaf4c04c7280cd1d2ca1d61e7d0d61ddef0125cb097bc7b82ed6a1
+    image: docker.io/kindest/node:v1.25.3@sha256:f52781bc0d7a19fb6c405c2af83abfeb311f130707a0e219175677e366cc45d1
     kubeadmConfigPatches:
     - |
       kind: JoinConfiguration
@@ -88,15 +88,15 @@ networking:
   apiServerPort: 6443
 ```
 
-Observe que no YAML informei a versão `1.24.0` do Kubernetes. O kind na versão que estou utilizando, `v0.14.0`, suporta as versões abaixo do Kubernetes:
+Observe que no YAML informei a versão `1.25.3` do Kubernetes. O kind na versão que estou utilizando, `v0.17.0`, suporta as versões abaixo do Kubernetes:
 ```
-1.24: kindest/node:v1.24.0@sha256:406fd86d48eaf4c04c7280cd1d2ca1d61e7d0d61ddef0125cb097bc7b82ed6a1
-1.23: kindest/node:v1.23.6@sha256:1af0f1bee4c3c0fe9b07de5e5d3fafeb2eec7b4e1b268ae89fcab96ec67e8355
-1.22: kindest/node:v1.22.9@sha256:6e57a6b0c493c7d7183a1151acff0bfa44bf37eb668826bf00da5637c55b6d5e
-1.21: kindest/node:v1.21.12@sha256:ae05d44cc636ee961068399ea5123ae421790f472c309900c151a44ee35c3e3e
-1.20: kindest/node:v1.20.15@sha256:a6ce604504db064c5e25921c6c0fffea64507109a1f2a512b1b562ac37d652f3
-1.19: kindest/node:v1.19.16@sha256:dec41184d10deca01a08ea548197b77dc99eeacb56ff3e371af3193c86ca99f4
-1.18: kindest/node:v1.18.20@sha256:38a8726ece5d7867fb0ede63d718d27ce2d41af519ce68be5ae7fcca563537ed
+1.25: kindest/node:v1.25.3@sha256:f52781bc0d7a19fb6c405c2af83abfeb311f130707a0e219175677e366cc45d1
+1.24: kindest/node:v1.24.7@sha256:577c630ce8e509131eab1aea12c022190978dd2f745aac5eb1fe65c0807eb315
+1.23: kindest/node:v1.23.13@sha256:ef453bb7c79f0e3caba88d2067d4196f427794086a7d0df8df4f019d5e336b61
+1.22: kindest/node:v1.22.15@sha256:7d9708c4b0873f0fe2e171e2b1b7f45ae89482617778c1c875f1053d4cef2e41
+1.21: kindest/node:v1.21.14@sha256:9d9eb5fb26b4fbc0c6d95fa8c790414f9750dd583f5d7cee45d92e8c26670aa1
+1.20: kindest/node:v1.20.15@sha256:a32bf55309294120616886b5338f95dd98a2f7231519c7dedcec32ba29699394
+1.19: kindest/node:v1.19.16@sha256:476cb3269232888437b61deca013832fee41f9f074f9bed79f57e4280f7c48b7
 ```
 
 Agora utililize o comando abaixo para inicializar o cluster.
@@ -114,7 +114,7 @@ export KUBECONFIG="~/.kube/kind.yaml"
 
 Por padrão o `Kind` instala o [`local-path-provisioner`](https://github.com/rancher/local-path-provisioner) que nos permite trabalhar com persistência de dados.
 
-Perceba que no arquivo `kind.yaml` utilizado para inicializar o cluster temos um mapeamento de diretório.
+Perceba que no arquivo [`kind.yaml`](kind.yaml) utilizado para inicializar o cluster temos um mapeamento de diretório.
 
 ```
 extraMounts:
