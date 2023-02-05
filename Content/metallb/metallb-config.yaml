@@ -1,0 +1,19 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: development
+  namespace: metallb-system
+spec:
+  addresses:
+  - 172.19.0.10-172.19.0.15
+
+---
+
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: empty
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - development
