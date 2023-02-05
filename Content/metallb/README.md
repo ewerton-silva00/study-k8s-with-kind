@@ -1,38 +1,53 @@
 ## Instalação e configuração do MetalLB
 
-Com o [**MetalLB**](https://metallb.universe.tf/) podemos utilizar o recurso de LoadBalancer mesmo estando executando um cluster local.
+Com o [**MetalLB**](https://metallb.universe.tf/) podemos utilizar o recurso de [`LoadBalancer`](https://kubernetes.io/docs/concepts/services-networking/ingress/#load-balancing) mesmo estando executando um cluster local ou em ambientes On-Premises.
 
-Antes de instalar o MetalLB, precisamos definir um pool de IPs para alocação e uso do serviços do tipo `LoadBalancer`.
+Antes de implantar o MetalLB, precisamos definir um pool de IPs para alocação e uso dos serviços do tipo `LoadBalancer`.
 
-Verifique qual a rede que o `kind` está utilizando.
+Verifique qual é a rede que o `kind` está utilizando.
 ```bash
 docker network inspect kind | jq '.[].IPAM | .Config | .[0].Subnet' | cut -d \" -f 2
 ```
 
-No meu caso, o resultado foi `172.18.0.0/16`. Sabendo disso, irei alocar `10` IPs dessa faixa de rede, que serão:
+No meu caso, o resultado foi `172.19.0.0/16`. Sabendo disso, irei alocar `5` IPs dessa faixa de rede, que serão:
 ```
-172.18.0.10-172.18.0.20
+172.19.0.10-172.19.0.15
+```
+> Em cenários de testes locais alocar um range de IPs pode ser não necessário. Você pode alocar apenas um IP para ser utilizado pelo Ingress Controller, por exemplo.
+
+Implante o MetalLB `v0.13.7`:
+```bash
+kubectl create --filename https://raw.githubusercontent.com/metallb/metallb/v0.13.7/config/manifests/metallb-native.yaml
 ```
 
-Instale o repositório contendo o Helm Chart do MetalLB.
+Aguarde até que os pods `controller` e `speakers`, no namespace `metallb-system`, estejam prontos:
 ```bash
-helm repo add metallb https://metallb.github.io/metallb
+kubectl wait --namespace metallb-system --for=condition=ready pod --selector=app=metallb --timeout=90s
 ```
 
-Instale o MetalLB.
+Com os pods prontos, conclua a configuração `layer2` definindo e anunciando o pool de IPs que serão utilizados pelo Load Balancer.
+```yaml
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: development
+  namespace: metallb-system
+spec:
+  addresses:
+  - 172.19.0.10-172.19.0.15
+
+---
+
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: empty
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - development
+```
+
 ```bash
-helm upgrade --install metallb metallb/metallb \
-  --version 0.11.0 \
-  --create-namespace \
-  --namespace metallb-system \
-  --set "configInline.address-pools[0].addresses[0]="172.18.0.10-172.18.0.20"" \
-  --set "configInline.address-pools[0].name=default" \
-  --set "configInline.address-pools[0].protocol=layer2" \
-  --set controller.nodeSelector.loadbalancer=enabled \
-  --set "controller.tolerations[0].key=node-role.kubernetes.io/master" \
-  --set "controller.tolerations[0].effect=NoSchedule" \
-  --set speaker.tolerateMaster=true \
-  --set speaker.nodeSelector.loadbalancer=enabled
-kubectl wait --for condition=Available=True deploy/metallb-controller --namespace metallb-system --timeout -1s
-kubectl wait --for condition=ready pod --selector app.kubernetes.io/component=controller --namespace metallb-system --timeout -1s
+kubectl create --filename [metallb-config.yaml](metallb-config.yaml)
 ```
