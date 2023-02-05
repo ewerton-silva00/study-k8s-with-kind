@@ -49,5 +49,5 @@ spec:
 ```
 
 ```bash
-kubectl create --filename [metallb-config.yaml](metallb-config.yaml)
+kubectl create --filename metallb-config.yaml
 ```
