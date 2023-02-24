@@ -5,7 +5,7 @@ O [**Kubernetes Dashboard**](https://kubernetes.io/docs/tasks/access-application
 A implantação desse componente é bem simples.
 
 ```bash
-kubectl apply --filename https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml
+kubectl apply --filename https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
 ```
 
 Agora, crie um arquivo chamado ```kubernetes-dashboard-adminuser.yaml``` declarando a criação do usuário ```admin-user```.
