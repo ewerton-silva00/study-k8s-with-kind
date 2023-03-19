@@ -23,7 +23,7 @@ Adicione a flag `--kubelet-insecure-tls` como argumento no container do metrics-
 
 Implante o metrics-server:
 ```bash
-kubectl crate --filename metrics-server-v0.6.2.yaml
+kubectl create --filename metrics-server-v0.6.2.yaml
 ```
 
 Aguarde o pod ficar pronto.
