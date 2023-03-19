@@ -4,7 +4,7 @@ O [**Metrics Server**](https://github.com/kubernetes-sigs/metrics-server) coleta
 
 Baixe a versão mais recente e estável do `metrics-server`.
 ```bash
-curl "https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.2/components.yaml" -o metrics-server-v0.6.2.yaml
+curl --location https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.2/components.yaml --output metrics-server-v0.6.2.yaml
 ```
 
 Adicione a flag `--kubelet-insecure-tls` como argumento no container do metrics-server.
