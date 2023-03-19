@@ -5,12 +5,13 @@ O [**Kubernetes Dashboard**](https://kubernetes.io/docs/tasks/access-application
 A implantação desse componente é bem simples.
 
 ```bash
-kubectl apply --filename https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
+kubectl create --filename https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
 ```
 
-Agora, crie um arquivo chamado ```kubernetes-dashboard-adminuser.yaml``` declarando a criação do usuário ```admin-user```.
+Crie o usuário ```admin-user``` com suas respectivas permissões:
 
 ```yaml
+cat <<'EOF' | kubectl create --filename -
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -31,28 +32,23 @@ subjects:
 - kind: ServiceAccount
   name: admin-user
   namespace: kubernetes-dashboard
+EOF
 ```
 
-Aplique o arquivo.
-
-```bash
-kubectl create kubernetes-dashboard-adminuser.yml
-```
-
-Para acesso ao Dashboard, é preciso recuperar o token do usuário ```admin-user```. Execute o comando abaixo e copie o token.
+Para acessar o dashboard é preciso recuperar o token do usuário ```admin-user```. Execute o comando abaixo e copie o token.
 
 ```bash
 kubectl --namespace kubernetes-dashboard describe secret $(kubectl --namespace kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')
 ```
 
-Inicialize o proxy para acesso ao Dashboard com o comando ```kubectl proxy```.
+Inicialize o proxy para acesso ao dashboard com o comando ```kubectl proxy```.
 
 ```
-➜ kubectl proxy                                                                                                                     
+➜ kubectl proxy
 Starting to serve on 127.0.0.1:8001
 ```
 
-No browser, informe o endereço abaixo e insira o token do usuário.
+No browser informe o endereço abaixo e insira o token do usuário.
 ```
 http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
 ```
