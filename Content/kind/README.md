@@ -4,9 +4,9 @@
   <img width="500" height="350" src="https://d33wubrfki0l68.cloudfront.net/d0c94836ab5b896f29728f3c4798054539303799/9f948/logo/logo.png">
 </p>
 
-O [**KinD**](https://kind.sigs.k8s.io/) (Kubernetes in Docker) é uma ferramenta para executar o Kubernetes em containers [**Docker**](https://docs.docker.com/). O Kind foi inclusive projetado para testar o próprio Kubernetes.
+O [**KinD**](https://kind.sigs.k8s.io/) (Kubernetes in Docker) é uma ferramenta para executar o Kubernetes em containers [**Docker**](https://docs.docker.com/).
 
-Como pré-requisito, você precisa ter o Docker devidamente instalado e funcional. [Clicando aqui](https://docs.docker.com/get-docker/) você será direcionado para a documentação de instalação do Docker.
+Como pré-requisito, você precisa ter o [`Docker Engine`](https://docs.docker.com/engine/install/) e [`kubectl`](https://kubernetes.io/docs/tasks/tools/#kubectl) devidamente instalados e funcionais.
 
 **01. Download e instalação do kind.**
 
@@ -15,10 +15,10 @@ Na página do [**Github**](https://github.com/kubernetes-sigs/kind/releases) do 
 Exemplo de instalação em uma distribuição GNU/Linux x86_64.
 
 ```bash
-bash> curl --location --show-error --silent --output kind-linux-amd64 https://github.com/kubernetes-sigs/kind/releases/download/v0.25.0/kind-linux-amd64 && echo "b22ff7e5c02b8011e82cc3223d069d178b9e1543f1deb21e936d11764780a3d8 kind-linux-amd64" | sha256sum --check
-bash> chmod u+x kind-linux-amd64
-bash> sudo mv kind-linux-amd64 /usr/local/bin/kind
-bash> kind version
+curl --location --show-error --silent --output kind-linux-amd64 https://github.com/kubernetes-sigs/kind/releases/download/v0.25.0/kind-linux-amd64 && echo "b22ff7e5c02b8011e82cc3223d069d178b9e1543f1deb21e936d11764780a3d8 kind-linux-amd64" | sha256sum --check
+sudo install --owner root --group root --mode 0755 kind-linux-amd64 /usr/local/bin/kind
+rm -f kind-linux-amd64
+kind version
 ```
 
 **02. Inicializando o cluster.**
