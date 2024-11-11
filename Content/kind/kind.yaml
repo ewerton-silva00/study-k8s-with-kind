@@ -2,7 +2,7 @@ kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
   - role: control-plane
-    image: docker.io/kindest/node:v1.25.3@sha256:f52781bc0d7a19fb6c405c2af83abfeb311f130707a0e219175677e366cc45d1
+    image: docker.io/kindest/node:v1.31.2@sha256:18fbefc20a7113353c7b75b5c869d7145a6abd6269154825872dc59c1329912e
     kubeadmConfigPatches:
     - |
       kind: InitConfiguration
@@ -15,15 +15,15 @@ nodes:
     extraPortMappings:
       - containerPort: 80
         hostPort: 80
-        protocol: TCP
         listenAddress: 0.0.0.0
+        protocol: TCP
       - containerPort: 443
         hostPort: 443
-        protocol: TCP
         listenAddress: 0.0.0.0
+        protocol: TCP
 
   - role: worker
-    image: docker.io/kindest/node:v1.25.3@sha256:f52781bc0d7a19fb6c405c2af83abfeb311f130707a0e219175677e366cc45d1
+    image: docker.io/kindest/node:v1.31.2@sha256:18fbefc20a7113353c7b75b5c869d7145a6abd6269154825872dc59c1329912e
     kubeadmConfigPatches:
     - |
       kind: JoinConfiguration
@@ -35,7 +35,7 @@ nodes:
         containerPath: /var/local-path-provisioner
 
   - role: worker
-    image: docker.io/kindest/node:v1.25.3@sha256:f52781bc0d7a19fb6c405c2af83abfeb311f130707a0e219175677e366cc45d1
+    image: docker.io/kindest/node:v1.31.2@sha256:18fbefc20a7113353c7b75b5c869d7145a6abd6269154825872dc59c1329912e
     kubeadmConfigPatches:
     - |
       kind: JoinConfiguration
@@ -47,5 +47,5 @@ nodes:
         containerPath: /var/local-path-provisioner
 
 networking:
-  apiServerPort: 6443
   apiServerAddress: 127.0.0.1
+  apiServerPort: 6443
