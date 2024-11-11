@@ -12,18 +12,18 @@ Como pré-requisito, você precisa ter o Docker devidamente instalado e funciona
 
 Na página do [**Github**](https://github.com/kubernetes-sigs/kind/releases) do projeto você encontra os arquivos compilados para diversas distribuições.
 
-Exemplo de instalação em um GNU/Linux x86_64.
+Exemplo de instalação em uma distribuição GNU/Linux x86_64.
 
 ```bash
-wget https://github.com/kubernetes-sigs/kind/releases/download/v0.17.0/kind-linux-amd64
-chmod +x kind-linux-amd64
-mv kind-linux-amd64 /usr/local/bin/kind
-kind version
+bash> curl --location --show-error --silent --output kind-linux-amd64 https://github.com/kubernetes-sigs/kind/releases/download/v0.25.0/kind-linux-amd64 && echo "b22ff7e5c02b8011e82cc3223d069d178b9e1543f1deb21e936d11764780a3d8 kind-linux-amd64" | sha256sum --check
+bash> chmod u+x kind-linux-amd64
+bash> sudo mv kind-linux-amd64 /usr/local/bin/kind
+bash> kind version
 ```
 
 **02. Inicializando o cluster.**
 
-É possível inicializar o kind com apenas um nó contendo todas as funções necessárias do Kubernetes.
+É possível inicializar o kind com apenas um nó contendo todos os componentes necessários do Kubernetes.
 
 Um exemplo prático disso é executar o comando abaixo que irá subir um único node.
 
@@ -39,7 +39,7 @@ kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
   - role: control-plane
-    image: docker.io/kindest/node:v1.25.3@sha256:f52781bc0d7a19fb6c405c2af83abfeb311f130707a0e219175677e366cc45d1
+    image: docker.io/kindest/node:v1.31.2@sha256:18fbefc20a7113353c7b75b5c869d7145a6abd6269154825872dc59c1329912e
     kubeadmConfigPatches:
     - |
       kind: InitConfiguration
@@ -60,7 +60,7 @@ nodes:
         protocol: TCP
 
   - role: worker
-    image: docker.io/kindest/node:v1.25.3@sha256:f52781bc0d7a19fb6c405c2af83abfeb311f130707a0e219175677e366cc45d1
+    image: docker.io/kindest/node:v1.31.2@sha256:18fbefc20a7113353c7b75b5c869d7145a6abd6269154825872dc59c1329912e
     kubeadmConfigPatches:
     - |
       kind: JoinConfiguration
@@ -72,7 +72,7 @@ nodes:
         containerPath: /var/local-path-provisioner
 
   - role: worker
-    image: docker.io/kindest/node:v1.25.3@sha256:f52781bc0d7a19fb6c405c2af83abfeb311f130707a0e219175677e366cc45d1
+    image: docker.io/kindest/node:v1.31.2@sha256:18fbefc20a7113353c7b75b5c869d7145a6abd6269154825872dc59c1329912e
     kubeadmConfigPatches:
     - |
       kind: JoinConfiguration
@@ -88,26 +88,62 @@ networking:
   apiServerPort: 6443
 ```
 
-Observe que no YAML informei a versão `1.25.3` do Kubernetes. O kind na versão que estou utilizando, `v0.17.0`, suporta as versões abaixo do Kubernetes:
+Observe que no YAML informei a versão `1.31.2` do Kubernetes.
+> [`Clique aqui`](https://kubernetes.io/releases/) para conferir todas as versões disponíveis do Kubernetes.
+
+O kind na versão que estou utilizando, `v0.25.0`, suporta as versões abaixo do Kubernetes:
+
 ```
-1.25: kindest/node:v1.25.3@sha256:f52781bc0d7a19fb6c405c2af83abfeb311f130707a0e219175677e366cc45d1
-1.24: kindest/node:v1.24.7@sha256:577c630ce8e509131eab1aea12c022190978dd2f745aac5eb1fe65c0807eb315
-1.23: kindest/node:v1.23.13@sha256:ef453bb7c79f0e3caba88d2067d4196f427794086a7d0df8df4f019d5e336b61
-1.22: kindest/node:v1.22.15@sha256:7d9708c4b0873f0fe2e171e2b1b7f45ae89482617778c1c875f1053d4cef2e41
-1.21: kindest/node:v1.21.14@sha256:9d9eb5fb26b4fbc0c6d95fa8c790414f9750dd583f5d7cee45d92e8c26670aa1
-1.20: kindest/node:v1.20.15@sha256:a32bf55309294120616886b5338f95dd98a2f7231519c7dedcec32ba29699394
-1.19: kindest/node:v1.19.16@sha256:476cb3269232888437b61deca013832fee41f9f074f9bed79f57e4280f7c48b7
+v1.31.0: kindest/node:v1.31.2@sha256:18fbefc20a7113353c7b75b5c869d7145a6abd6269154825872dc59c1329912e
+v1.30.6: kindest/node:v1.30.6@sha256:b6d08db72079ba5ae1f4a88a09025c0a904af3b52387643c285442afb05ab994
+v1.29.10: kindest/node:v1.29.10@sha256:3b2d8c31753e6c8069d4fc4517264cd20e86fd36220671fb7d0a5855103aa84b
+v1.28.15: kindest/node:v1.28.15@sha256:a7c05c7ae043a0b8c818f5a06188bc2c4098f6cb59ca7d1856df00375d839251
+v1.27.16: kindest/node:v1.27.16@sha256:2d21a61643eafc439905e18705b8186f3296384750a835ad7a005dceb9546d20
+v1.26.15: kindest/node:v1.26.15@sha256:c79602a44b4056d7e48dc20f7504350f1e87530fe953428b792def00bc1076dd
+```
+> [`Clique aqui`](https://github.com/kubernetes-sigs/kind/releases) para conferir todas as versões disponíveis do Kind.
+
+Utililize o comando abaixo para inicializar o cluster.
+```bash
+kind create cluster --name lab --config kind.yaml
 ```
 
-Agora utililize o comando abaixo para inicializar o cluster.
+Verifique se ficou tudo certo executando o comando abaixo:
 
 ```bash
-kind create cluster --name kindcluster --config kind.yaml --kubeconfig ~/.kube/kind.yaml
+kubectl cluster-info --context kind-lab
 ```
 
-Com o cluster inicializado, exporte a variável `KUBECONFIG`, pois no comando acima foi informado onde seria escrito o arquivo `kubeconfig file`.
+A saída do comando acima deverá ser semelhante a essa abaixo:
+```
+Kubernetes control plane is running at https://127.0.0.1:6443
+CoreDNS is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+```
+
+Verifique também se todos os pods estão em execução:
+
 ```bash
-export KUBECONFIG="~/.kube/kind.yaml"
+kubectl get pods --all-namespaces --context kind-lab
+```
+
+A saída do comando acima deverá se semelhante a esta abaixo:
+```
+NAMESPACE            NAME                                        READY   STATUS    RESTARTS   AGE
+kube-system          coredns-7c65d6cfc9-45xfp                    1/1     Running   0          5m17s
+kube-system          coredns-7c65d6cfc9-sft47                    1/1     Running   0          5m17s
+kube-system          etcd-lab-control-plane                      1/1     Running   0          5m25s
+kube-system          kindnet-gdv5b                               1/1     Running   0          5m13s
+kube-system          kindnet-kmbq5                               1/1     Running   0          5m13s
+kube-system          kindnet-rbl4c                               1/1     Running   0          5m17s
+kube-system          kube-apiserver-lab-control-plane            1/1     Running   0          5m24s
+kube-system          kube-controller-manager-lab-control-plane   1/1     Running   0          5m24s
+kube-system          kube-proxy-mtvxp                            1/1     Running   0          5m13s
+kube-system          kube-proxy-pt7qm                            1/1     Running   0          5m17s
+kube-system          kube-proxy-qntvd                            1/1     Running   0          5m13s
+kube-system          kube-scheduler-lab-control-plane            1/1     Running   0          5m24s
+local-path-storage   local-path-provisioner-57c5987fd4-m6qgz     1/1     Running   0          5m17s
 ```
 
 **04. StorageClass padrão.**
