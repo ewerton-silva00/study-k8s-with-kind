@@ -110,12 +110,8 @@ kind create cluster --name lab --config kind.yaml
 
 Verifique se ficou tudo certo executando o comando abaixo:
 
-```bash
-kubectl cluster-info --context kind-lab
 ```
-
-A saída do comando acima deverá ser semelhante a essa abaixo:
-```
+➜ kubectl cluster-info --context kind-lab
 Kubernetes control plane is running at https://127.0.0.1:6443
 CoreDNS is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
 
@@ -124,12 +120,8 @@ To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 
 Verifique também se todos os pods estão em execução:
 
-```bash
-kubectl get pods --all-namespaces --context kind-lab
 ```
-
-A saída do comando acima deverá se semelhante a esta abaixo:
-```
+➜ kubectl get pods --all-namespaces --context kind-lab
 NAMESPACE            NAME                                        READY   STATUS    RESTARTS   AGE
 kube-system          coredns-7c65d6cfc9-45xfp                    1/1     Running   0          5m17s
 kube-system          coredns-7c65d6cfc9-sft47                    1/1     Running   0          5m17s
