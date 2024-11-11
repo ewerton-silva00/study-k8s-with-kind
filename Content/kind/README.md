@@ -6,7 +6,7 @@
 
 O [**KinD**](https://kind.sigs.k8s.io/) (Kubernetes in Docker) é uma ferramenta para executar o Kubernetes em containers [**Docker**](https://docs.docker.com/).
 
-Como pré-requisito, você precisa ter o [`Docker Engine`](https://docs.docker.com/engine/install/) e [`kubectl`](https://kubernetes.io/docs/tasks/tools/#kubectl) devidamente instalados e funcionais.
+Como pré-requisito, você precisa ter o [`Docker Engine`](https://docs.docker.com/engine/install/), [`kubectl`](https://kubernetes.io/docs/tasks/tools/#kubectl) e o [`Helm`](https://helm.sh/docs/intro/install/) devidamente instalados e funcionais.
 
 **01. Download e instalação do kind.**
 
