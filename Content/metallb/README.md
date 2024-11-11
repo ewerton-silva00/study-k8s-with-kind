@@ -19,7 +19,7 @@ No meu caso, o resultado foi `172.18.0.0/16`. Sabendo disso, irei alocar apenas 
 Em alguns cenários se faz necessário alocar um range de IPs e isso pode ser feito da seguinte forma:
 
 ```
-172.19.0.100-172.19.0.105
+172.18.0.100-172.18.0.105
 ```
 > Dessa forma tenho um range de 5 IPs para serem alocados para serviços do tipo `LoadBalancer`.
 
