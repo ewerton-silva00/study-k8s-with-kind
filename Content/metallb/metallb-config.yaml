@@ -1,11 +1,11 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: development
+  name: lab
   namespace: metallb-system
 spec:
   addresses:
-  - 172.19.0.10-172.19.0.15
+  - 172.18.0.100/32
 
 ---
 
@@ -16,4 +16,4 @@ metadata:
   namespace: metallb-system
 spec:
   ipAddressPools:
-  - development
+  - lab
