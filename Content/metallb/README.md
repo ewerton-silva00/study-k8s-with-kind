@@ -6,8 +6,9 @@ Antes de implantar o MetalLB, precisamos definir um pool de IPs para alocação 
 
 Verifique qual é a rede do Docker que o `kind` está utilizando.
 
-```bash
-docker network inspect kind | jq '.[].IPAM | .Config | .[1].Subnet' | cut -d \" -f 2
+```
+➜ docker network inspect kind | jq '.[].IPAM | .Config | .[1].Subnet' | cut -d \" -f 2
+172.18.0.0/16
 ``` 
 
 No meu caso, o resultado foi `172.18.0.0/16`. Sabendo disso, irei alocar apenas um IP dessa faixa de rede para ser utilizado no `Ingress Controller`:
@@ -26,6 +27,7 @@ Em alguns cenários se faz necessário alocar um range de IPs e isso pode ser fe
 ---
 
 Implante o MetalLB `v0.14.8`:
+
 ```bash
 kubectl create --filename https://raw.githubusercontent.com/metallb/metallb/v0.14.8/config/manifests/metallb-native.yaml
 ```
@@ -66,13 +68,8 @@ EOF
 
 Você pode conferir as configurações aplicadas da seguinte forma:
 
-```bash
-kubectl get IPAddressPool,L2Advertisement --namespace metallb-system
 ```
-
-A saída do comando acima deverá ser semelhante e esta abaixo:
-
-```
+➜ kubectl get IPAddressPool,L2Advertisement --namespace metallb-system
 NAME                           AUTO ASSIGN   AVOID BUGGY IPS   ADDRESSES
 ipaddresspool.metallb.io/lab   true          false             ["172.18.0.100/32"]
 
